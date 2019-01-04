@@ -3,7 +3,6 @@ package com.workbei.ec.ecmanager.manager.impl;
 import com.workbei.ec.ecapi.vo.UserVO;
 import com.workbei.ec.ecdao.dao.UserDao;
 import com.workbei.ec.ecdao.domain.UserDO;
-import com.workbei.ec.ecmanager.converter.UserConverter;
 import com.workbei.ec.ecmanager.manager.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,8 +21,8 @@ public class UserManagerImpl implements UserManager {
     private UserDao userDao;
 
 
-    public List<UserVO> listGetUser() {
+    public List<UserDO> listGetUser() {
         List<UserDO> userDos = userDao.listGetUser();
-        return UserConverter.userDOList2userVOList(userDos);
+        return userDos;
     }
 }

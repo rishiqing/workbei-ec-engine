@@ -1,4 +1,4 @@
-package com.workbei.ec.ecmanager.converter;
+package com.workbei.ec.ecservice.converter;
 
 import com.workbei.ec.ecapi.vo.UserVO;
 import com.workbei.ec.ecdao.domain.UserDO;
