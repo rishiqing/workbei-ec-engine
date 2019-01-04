@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.workbei.ec.ecdao.dao.ProductDataDao">
+    <select id="listGetProductData" resultType="Map">
+        SELECT
+        a.product_id,
+        c.product_name,
+        c.product_url,
+        c.product_category,
+        a.count_date
+        <foreach collection="productDataKeys" open="," item="productDataKey" separator=",">
+        MAX( IF ( product_head_key_id = ${productDataKey.id}, product_body_value, NULL ) ) AS #{productDataKey.productHeadKey}
+        </foreach>
+        FROM
+        ec_product_data_value a
+        INNER JOIN ec_product_data_key b ON a.product_head_key_id = b.id
+        INNER JOIN ec_product c ON a.product_id = c.product_id
+        <where>
+            <if test="diffDay!=null">
+                DATEDIFF( NOW( ), a.count_date ) &lt;= #{diffDay}
+            </if>
+        </where>
+        GROUP BY
+        a.product_id,
+        a.count_date
+    </select>
+</mapper>

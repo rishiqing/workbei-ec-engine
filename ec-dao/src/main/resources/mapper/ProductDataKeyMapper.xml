@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.workbei.ec.ecdao.dao.ProductDataKeyDao">
+    <resultMap id="productDataKeyMap" type="com.workbei.ec.ecdao.domain.ProductDataKey">
+        <id property="id" column="id"></id>
+        <result property="gmtCreate" column="gmt_create"></result>
+        <result property="gmtModified" column="gmt_modified"></result>
+        <result property="productHeadKey" column="product_head_key"></result>
+    </resultMap>
+
+    <select id="getProductDataKeyConcatSql" resultType="String">
+        SELECT
+            GROUP_CONCAT( DISTINCT CONCAT( 'MAX(IF(product_head_key_id = ''', product_head_key_id, ''', product_body_value,NULL)) AS ''', product_head_key, '''' ) )
+        FROM
+            ec_product_data_value a
+            INNER JOIN ec_product_data_key b ON a.product_head_key_id = b.id
+    </select>
+
+    <select id="listGetProductDataKey" resultMap="productDataKeyMap">
+        SELECT
+            id,
+            gmt_create,
+            gmt_modified,
+            product_head_key
+        FROM
+            `ec_product_data_key`
+    </select>
+</mapper>
